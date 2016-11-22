@@ -1,4 +1,4 @@
-﻿Build started 2016/11/22 11:31:57.
+﻿Build started 2016/11/22 11:37:05.
      1>Project "G:\GitHub\DesignPattern\DesignPattern\CPPComposite\CPPComposite\CPPComposite.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
          D:\VS2013\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt CPPComposite.cpp
@@ -10,4 +10,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:02.56
+Time Elapsed 00:00:02.41
