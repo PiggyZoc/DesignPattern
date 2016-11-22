@@ -26,7 +26,7 @@ public:
 		vec_observer.push_back(observer);
 	}
 
-	void Romve(Observer* observer)
+	void Romove(Observer* observer)
 	{
 		vector<Observer*>::iterator iter;
 		for (iter = vec_observer.begin(); iter != vec_observer.end(); ++iter)
