@@ -1,12 +1,9 @@
 
-
-
-
-
 #include <cstdio>
 #include <string>  
 #include <iostream>
-#include<list>
+#include <list>
+
 #include <windows.h>
 using namespace std;
 
@@ -25,8 +22,9 @@ public:
 	void add_Buyer(Observer* obs){
 		this->List_Buyers.push_back(obs);
 	}
+
 	void add_Machine(Observer* obs){
-		this->List_Machines.push_back(obs);
+		this->Machine = obs;
 	}
 	void remove_obs(Observer* obs){
 		list<Observer*>::iterator ite;
@@ -39,28 +37,27 @@ public:
 			}
 		}
 	}
-	void NotifyToBuyers(){
-		list<Observer*>::iterator ite;
-		for (ite = List_Buyers.begin(); ite != List_Buyers.end(); ite++)
-		{
+	void NotifyToBuyers()
+	{
+		
+			list<Observer*>::iterator ite;
+			for (ite = List_Buyers.begin(); ite != List_Buyers.end();)
+			{
 
-			(*ite)->update();
+				(*ite)->update();
+				List_Buyers.erase(ite++);
+				cout << endl;
+				
+			}
+
 		}
-	}
-
-	void NotifyToMachines(){
+	
+	void NotifyToMachine(){
 		if (this->GetNum() > 0)
 			return;
-		list<Observer*>::iterator ite;
-		for (ite = List_Machines.begin(); ite != List_Machines.end(); ite++)
-		{
-			//cout << "aaaaaa" << endl;
-			(*ite)->update();
-			//	cout << "bbbbb" << endl;
-
-		}
-
+		this->Machine->update();
 	}
+
 
 	int GetNum(){
 		return this->num_ticket;
@@ -72,14 +69,20 @@ public:
 		this->num_ticket++;
 	}
 	void SellATicket(){
-
-		this->num_ticket--;
-
+		if (this->GetNum() > 0)
+			this->num_ticket--;
+		else
+		{
+			this->NotifyToMachine();
+			this->num_ticket--;
+		}
 	}
 
 private:
 	list<Observer*> List_Buyers;
-	list<Observer*>List_Machines;
+
+	
+	Observer* Machine;
 	int num_ticket;
 
 };
@@ -94,21 +97,17 @@ public:
 	Buyer(string m_name, Ticket* m_ticket) :buyer_name(m_name), ticket(m_ticket){}
 	~Buyer(){};
 	void BuyATicket(){
-		if (ticket->GetNum() != 0)
-		{
-			ticket->SellATicket();
 
-			//ticket->remove_obs(this);
-		}
-		else
-			cout << "当前余票为零，无法购买" << endl;
+			ticket->SellATicket();
 
 	}
 	void update(){
 		int get_ticket_num = ticket->GetNum();
-		cout << this->buyer_name << "-------" << "当前余票为：" << get_ticket_num << endl;
+		cout << "<<<<<<  " << "当前余票为： " << get_ticket_num << "  >>>>>>"<<endl;
+		this->BuyATicket();
+		cout << this->buyer_name << "已获得  1  张票" << endl;
 	}
-};
+	};
 class Machine :public Observer
 {
 private:
@@ -118,9 +117,10 @@ public:
 	Machine(string m_id, Ticket* ticket) :machine_id(m_id), ticket(ticket){}
 	~Machine(){}
 	void update(){
+		cout << "机器正在为您取票，请耐心等待。。。\n" << endl;
 		Sleep(2000);
 		this->ticket->AddATicket();
-		//cout << this->ticket->GetNum() << endl;
+		cout << "机器已为您产生  1  张票" << endl;
 
 	}
 
@@ -128,26 +128,23 @@ public:
 
 int main()
 {
-	Ticket* sh_ticket = new Ticket(5);
-	Buyer* buyer_one = new Buyer("Tom", sh_ticket);
-	Buyer* buyer_two = new Buyer("Json", sh_ticket);
-	Buyer* buyer_three = new Buyer("Amy", sh_ticket);
+	Buyer *Buyers[10];
+	
+	Ticket* sh_ticket = new Ticket(4);
+	for (int i = 0; i < 10; i++)
+	{
+		string s = "Waiter";
+		Buyers[i] = new Buyer(s.append(to_string(i+1)), sh_ticket);
+		sh_ticket->add_Buyer(Buyers[i]);
+	}
+//	sh_ticket->NotifyToBuyers();
+	
 	Machine machine_one("001", sh_ticket);
+
 	sh_ticket->add_Machine(&machine_one);
-	//machine_one.update();
-
-	sh_ticket->NotifyToMachines();
-
-	sh_ticket->add_Buyer(buyer_one);
-	sh_ticket->add_Buyer(buyer_two);
-	sh_ticket->add_Buyer(buyer_three);
-
-	//buyer_one->BuyATicket();
-
-	//sh_ticket->remove_obs(buyer_two);
-	//	Sleep(2000);
 	sh_ticket->NotifyToBuyers();
 
+	
 	system("PAUSE");
 	return 0;
 }
