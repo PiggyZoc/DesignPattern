@@ -7,7 +7,8 @@ using namespace std;
 class Command
 {
 public:
-	
+	Command(){}
+	~Command(){}
 	virtual void execute(){}
 
 };
@@ -26,19 +27,68 @@ public:
 };
 class Manager
 {
-	Manager(InputCmd* inputcmd){
-		undo_stack.push(inputcmd);
+public:
+	Manager(Command* cmd){
+		this->index++;
+		this->cmds[NumOfCmds] = cmd;
+		this->NumOfCmds++;
+		this->cmds[index]->execute();
 	}
+	Manager(){}
+	~Manager(){}
+	void addCmd(Command* cmd){
+		this->index++;
+		this->cmds[NumOfCmds] = cmd;
+		this->NumOfCmds++;
+		this->cmds[index]->execute();
+	}
+	void Undo(){
+		if (this->NumOfCmds < 2||this->index<1)
+		{
+			cout << "Undo Failed!" << endl;
+		    return;
+		}
 
+		this->index--;
+		this->cmds[index]->execute();
+		cout << "Undo Successful!" << endl;
+	}
+	void Redo(){
+		if (this->index==this->NumOfCmds-1)
+		{
+			cout << "Redo Failed!" << endl;
+			return;
+		}
+
+		this->index++;
+		this->cmds[index]->execute();
+		cout << "Redo Successful!" << endl;
+	}
 private:
-	stack<Command*> undo_stack;
-	stack<Command*> redo_stack;
+	Command* cmds[1024];
+	int index = -1;
+	int NumOfCmds = 0;
 	
 };
+
 int main()
 {
-	InputCmd* in = new InputCmd("ggg");
-	in->execute();
+//	InputCmd* input = new InputCmd("ggg");
+//	input->execute();
+	Manager* mgr = new Manager(new InputCmd("ggg"));
+	mgr->addCmd(new InputCmd("hhh"));
+	mgr->addCmd(new InputCmd("iii"));
+	mgr->addCmd(new InputCmd("jjj"));
+	mgr->addCmd(new InputCmd("kkk"));
+	mgr->addCmd(new InputCmd("mmm"));
+	cout << endl;
+	mgr->Undo();
+	mgr->Redo();
+	mgr->Redo();
+
+
+
+	
 	system("PAUSE");
 	return 0;
 }
