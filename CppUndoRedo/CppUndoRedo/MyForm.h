@@ -5,10 +5,12 @@
 #include<vector>
 
 #include "DrawingSquareEdit.h"
+#include "UndoableEditSupport.h"
+#include "UndoManager.h"
 
 
 
-namespace Project1 {
+namespace Project {
 
 	using namespace std;
 	using namespace System;
@@ -17,7 +19,7 @@ namespace Project1 {
 	using namespace System::Windows::Forms;
 	using namespace System::Data;
 	using namespace System::Drawing;
-	using namespace Runtime::InteropServices;
+
 
 
 	/// <summary>
@@ -48,7 +50,8 @@ namespace Project1 {
 
 	private: System::Windows::Forms::PictureBox^  drawMap;
 	private: vector<MySquare*>* squares;
-
+	private: UndoableEditSupport* editSupport;
+	private: UndoManager* manager;
 	private:Bitmap^ bitmap;
 	private:Pen^ pen = gcnew Pen(Color::Red, 1);
 	private:Pen^ EraserPen;
@@ -63,6 +66,8 @@ namespace Project1 {
 
 	private: System::Windows::Forms::Button^  button2;
 	private: System::Windows::Forms::Button^  button3;
+	private: System::Windows::Forms::Button^  button1;
+	private: System::Windows::Forms::Button^  button4;
 
 
 
@@ -83,6 +88,8 @@ namespace Project1 {
 			this->drawMap = (gcnew System::Windows::Forms::PictureBox());
 			this->button2 = (gcnew System::Windows::Forms::Button());
 			this->button3 = (gcnew System::Windows::Forms::Button());
+			this->button1 = (gcnew System::Windows::Forms::Button());
+			this->button4 = (gcnew System::Windows::Forms::Button());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->drawMap))->BeginInit();
 			this->SuspendLayout();
 			// 
@@ -98,7 +105,7 @@ namespace Project1 {
 			// 
 			// button2
 			// 
-			this->button2->Location = System::Drawing::Point(76, 295);
+			this->button2->Location = System::Drawing::Point(32, 295);
 			this->button2->Name = L"button2";
 			this->button2->Size = System::Drawing::Size(100, 47);
 			this->button2->TabIndex = 2;
@@ -108,19 +115,40 @@ namespace Project1 {
 			// 
 			// button3
 			// 
-			this->button3->Location = System::Drawing::Point(288, 295);
+			this->button3->Location = System::Drawing::Point(167, 295);
 			this->button3->Name = L"button3";
-			this->button3->Size = System::Drawing::Size(119, 47);
+			this->button3->Size = System::Drawing::Size(98, 47);
 			this->button3->TabIndex = 3;
 			this->button3->Text = L"RePaint";
 			this->button3->UseVisualStyleBackColor = true;
 			this->button3->Click += gcnew System::EventHandler(this, &MyForm::button3_Click);
+			// 
+			// button1
+			// 
+			this->button1->Location = System::Drawing::Point(284, 295);
+			this->button1->Name = L"button1";
+			this->button1->Size = System::Drawing::Size(90, 47);
+			this->button1->TabIndex = 4;
+			this->button1->Text = L"Undo";
+			this->button1->UseVisualStyleBackColor = true;
+			this->button1->Click += gcnew System::EventHandler(this, &MyForm::button1_Click);
+			// 
+			// button4
+			// 
+			this->button4->Location = System::Drawing::Point(392, 295);
+			this->button4->Name = L"button4";
+			this->button4->Size = System::Drawing::Size(96, 47);
+			this->button4->TabIndex = 5;
+			this->button4->Text = L"Redo";
+			this->button4->UseVisualStyleBackColor = true;
 			// 
 			// MyForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 12);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(500, 365);
+			this->Controls->Add(this->button4);
+			this->Controls->Add(this->button1);
 			this->Controls->Add(this->button3);
 			this->Controls->Add(this->button2);
 			this->Controls->Add(this->drawMap);
@@ -137,9 +165,18 @@ namespace Project1 {
 	private: System::Void MyForm_Load(System::Object^  sender, System::EventArgs^  e) {
 		bitmap = gcnew Bitmap(drawMap->Width, drawMap->Height);
 		drawMap->Image = bitmap;
-		int i = 1;
+		
 		EraserPen = gcnew Pen(drawMap->BackColor, 2);
 		squares = new vector < MySquare* >;
+		
+	   editSupport = new UndoableEditSupport();
+		manager = new UndoManager();
+		editSupport->addUndoManger(manager);
+	/*	UndoableEditSupport* support = NULL;
+		UndoManager* manager = NULL;
+		support->addUndoManger(manager);*/
+
+		
 	}
 
 
@@ -151,10 +188,10 @@ namespace Project1 {
 		drawMap->Image = bitmap;
 
 		g = Graphics::FromImage(bitmap);
-		g->DrawEllipse(pen, e->Location.X, e->Location.Y, 25, 25);
-		MySquare* sqr = new MySquare(*currentPoint, 25);
+		g->DrawRectangle(pen, e->Location.X, e->Location.Y, 50, 50);
+		MySquare* sqr = new MySquare(*currentPoint, 50);
 		squares->push_back(sqr);
-		//	MouseDown = false;
+		editSupport->postEdit(new DrawingSquareEdit(*squares, sqr));
 
 	}
 
@@ -186,7 +223,16 @@ namespace Project1 {
 	private: System::Void button3_Click(System::Object^  sender, System::EventArgs^  e) {
 		repaint();
 	}
-	};
+	private: System::Void button1_Click(System::Object^  sender, System::EventArgs^  e) {
+		manager->undo();
+		ClearDrawingMap();
+		
+		
+		repaint();
+		
+
+	}
+};
 }
 
 

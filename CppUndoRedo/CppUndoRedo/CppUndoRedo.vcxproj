@@ -56,7 +56,7 @@
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies />
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
       <EntryPointSymbol>main</EntryPointSymbol>
     </Link>
   </ItemDefinitionGroup>
@@ -78,11 +78,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AbstractUndoableEdit.cpp" />
     <ClCompile Include="MyForm.cpp" />
-    <ClCompile Include="UndoableEdit.cpp" />
-    <ClCompile Include="UndoableEditSupport.cpp" />
-    <ClCompile Include="UndoManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AbstractUndoableEdit.h" />
@@ -94,6 +90,11 @@
     <ClInclude Include="UndoableEdit.h" />
     <ClInclude Include="UndoableEditSupport.h" />
     <ClInclude Include="UndoManager.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="MyForm.resx">
+      <DependentUpon>MyForm.h</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

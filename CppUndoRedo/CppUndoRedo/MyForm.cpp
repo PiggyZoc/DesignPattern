@@ -1,5 +1,5 @@
 #include "MyForm.h"
-using namespace Project1;
+using namespace Project;
 [STAThread]
 int main(){
 	Application::EnableVisualStyles();

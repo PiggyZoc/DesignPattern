@@ -18,18 +18,6 @@
     <ClCompile Include="MyForm.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="UndoableEdit.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="UndoableEditSupport.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="UndoManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="AbstractUndoableEdit.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MyForm.h">
@@ -44,10 +32,10 @@
     <ClInclude Include="UndoableEdit.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="UndoableEditSupport.h">
+    <ClInclude Include="UndoManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="UndoManager.h">
+    <ClInclude Include="UndoableEditSupport.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="AbstractUndoableEdit.h">
