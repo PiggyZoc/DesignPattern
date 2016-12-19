@@ -14,7 +14,9 @@ public:
 	virtual bool canRedo() = 0;
 //	virtual void addEdit(UndoableEdit* anEdit) = 0;
 //	virtual void die() = 0;
-	string getPresentationName();
+    string getPresentationName(){
+		return this->presentationName;
+	};
 	string getUndoPresentationName();
 	string getRedoPresentationName();
 protected:

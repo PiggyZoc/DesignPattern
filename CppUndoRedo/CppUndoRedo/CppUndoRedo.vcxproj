@@ -83,7 +83,7 @@
   <ItemGroup>
     <ClInclude Include="AbstractUndoableEdit.h" />
     <ClInclude Include="C:\Users\dell-\Desktop\架构模式‘\DesignPatternProject_TJ-master\UndoRedo\UndoRedoProject\UndoRedoComponent.h" />
-    <ClInclude Include="DrawingSquareEdit.h" />
+    <ClInclude Include="DrawingGraphicEdit.h" />
     <ClInclude Include="MyForm.h">
       <FileType>CppForm</FileType>
     </ClInclude>

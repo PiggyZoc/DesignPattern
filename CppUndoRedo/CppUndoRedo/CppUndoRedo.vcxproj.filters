@@ -23,9 +23,6 @@
     <ClInclude Include="MyForm.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="DrawingSquareEdit.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="MyPoint.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -42,6 +39,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="C:\Users\dell-\Desktop\架构模式‘\DesignPatternProject_TJ-master\UndoRedo\UndoRedoProject\UndoRedoComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DrawingGraphicEdit.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

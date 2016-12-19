@@ -19,8 +19,8 @@ public:
 	void undoableEditHappended(UndoableEdit* undoableEdit) { 
 		this->addEdit(undoableEdit);
 	};
-	virtual bool canUndo(){ return false; }
-	virtual bool canRedo(){ return false; }
+	bool canUndo(){ return editToBeUndone()!=NULL; }
+	bool canRedo(){ return editToBeRedone()!=NULL; }
 	UndoableEdit* getEdit(){
 		if (indexOfNextAdd < 1) return NULL;
 		vector<UndoableEdit*>::iterator ite = edits.begin() + indexOfNextAdd - 1;
@@ -40,6 +40,11 @@ protected:
 };
 inline void UndoManager::addEdit(UndoableEdit* undoableEdit){
 //	if (indexOfNextAdd > limit)return;
+	vector<UndoableEdit*>::iterator ite = edits.begin() + indexOfNextAdd;
+	for (; ite != edits.end(); ++ite)
+	{
+		delete (*ite);
+	}
 	edits.erase(edits.begin() + indexOfNextAdd, edits.end());
 	edits.push_back(undoableEdit);
 	indexOfNextAdd++;
@@ -47,7 +52,7 @@ inline void UndoManager::addEdit(UndoableEdit* undoableEdit){
 }
 inline void UndoManager::undo(){
 	UndoableEdit* edit = editToBeUndone();
-	cout << indexOfNextAdd << endl;
+//	cout << indexOfNextAdd << endl;
 	if (edit != NULL)
 		this->undoTo(edit);
 //	cout << edits.size() << endl;
@@ -86,6 +91,7 @@ inline void UndoManager::redoTo(UndoableEdit* edit)
 	}
 }
 
+
 inline UndoableEdit* UndoManager::editToBeUndone(){
 	if (indexOfNextAdd<1)
 	{
@@ -112,4 +118,14 @@ inline UndoableEdit* UndoManager::editToBeRedone(){
 		}
 	}
 	return NULL;
+}
+inline void UndoManager::discardAllEdits(){
+	vector<UndoableEdit*>::iterator ite = edits.begin();
+	for (;ite!=edits.end(); ++ite)
+	{
+		delete (*ite);
+	}
+	edits.clear();
+
+	indexOfNextAdd = 0;
 }
