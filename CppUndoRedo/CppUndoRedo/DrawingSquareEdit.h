@@ -13,6 +13,9 @@ public:
 	};
 	virtual void undo();
 	virtual void redo();
+	vector<MySquare*> getSquares(){
+		return this->squares;
+	}
 
 private:
 	vector<MySquare*> squares;
@@ -26,9 +29,15 @@ void DrawingSquareEdit::undo(){
 		if ((*iter) == this->NewAddedOne)
 		{
 			squares.erase(iter, iter + 1);
+		//	cout << squares.size() << endl;
+		//	cout << this->gethas() << endl;
+		//	cout << this->canRedo() << endl;
+		//	AbstractUndoableEdit::canRedo();
+		//	cout << this->canRedo() << endl;
 			return;
 		}
 	}
+	
 }
 
 void DrawingSquareEdit::redo(){

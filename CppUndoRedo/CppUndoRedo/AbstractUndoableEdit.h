@@ -14,6 +14,7 @@ public:
 	string getPresentationName();
 	string getUndoPresentationName();
 	string getRedoPresentationName();
+	
 private:
 	bool hasBeenDone = true;
 	bool alive = true;
@@ -26,8 +27,8 @@ private:
 	 hasBeenDone = true;
  }
  inline bool AbstractUndoableEdit::canUndo(){
-	 return hasBeenDone = true;
+	 return hasBeenDone == true;
  };
  inline bool AbstractUndoableEdit::canRedo(){
-	 return hasBeenDone = false;
+	  return hasBeenDone == false;
  };

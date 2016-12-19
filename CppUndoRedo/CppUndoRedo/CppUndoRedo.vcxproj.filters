@@ -41,5 +41,13 @@
     <ClInclude Include="AbstractUndoableEdit.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="C:\Users\dell-\Desktop\架构模式‘\DesignPatternProject_TJ-master\UndoRedo\UndoRedoProject\UndoRedoComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="MyForm.resx">
+      <Filter>Resource Files</Filter>
+    </EmbeddedResource>
   </ItemGroup>
 </Project>

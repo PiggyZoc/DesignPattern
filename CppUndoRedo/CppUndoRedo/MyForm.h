@@ -141,6 +141,7 @@ namespace Project {
 			this->button4->TabIndex = 5;
 			this->button4->Text = L"Redo";
 			this->button4->UseVisualStyleBackColor = true;
+			this->button4->Click += gcnew System::EventHandler(this, &MyForm::button4_Click);
 			// 
 			// MyForm
 			// 
@@ -191,6 +192,7 @@ namespace Project {
 		g->DrawRectangle(pen, e->Location.X, e->Location.Y, 50, 50);
 		MySquare* sqr = new MySquare(*currentPoint, 50);
 		squares->push_back(sqr);
+	//	cout << squares->size() << endl;
 		editSupport->postEdit(new DrawingSquareEdit(*squares, sqr));
 
 	}
@@ -212,10 +214,18 @@ namespace Project {
 		drawMap->Image = bitmap;
 
 		g = Graphics::FromImage(bitmap);
+		DrawingSquareEdit* edit = (DrawingSquareEdit*)manager->getEdit();
+		if (edit==NULL)
+		{
+			g->Clear(drawMap->BackColor);
+			return;
+		}
+		*squares = edit->getSquares();
+		
 		vector<MySquare*>::iterator ite = squares->begin();
 		for (; ite != squares->end(); ++ite){
 			g->DrawRectangle(pen, (*ite)->getPos()->getX(), (*ite)->getPos()->getY(),
-				(*ite)->getsideLen(), (*ite)->getsideLen());
+			   (*ite)->getsideLen(), (*ite)->getsideLen());
 		}
 	}
 
@@ -226,12 +236,13 @@ namespace Project {
 	private: System::Void button1_Click(System::Object^  sender, System::EventArgs^  e) {
 		manager->undo();
 		ClearDrawingMap();
-		
-		
 		repaint();
-		
-
 	}
+private: System::Void button4_Click(System::Object^  sender, System::EventArgs^  e) {
+	manager->redo();
+	ClearDrawingMap();
+	repaint();
+}
 };
 }
 
