@@ -41,10 +41,10 @@ protected:
 inline void UndoManager::addEdit(UndoableEdit* undoableEdit){
 //	if (indexOfNextAdd > limit)return;
 	vector<UndoableEdit*>::iterator ite = edits.begin() + indexOfNextAdd;
-	for (; ite != edits.end(); ++ite)
+/*	for (; ite != edits.end(); ++ite)
 	{
 		delete (*ite);
-	}
+	}*/
 	edits.erase(edits.begin() + indexOfNextAdd, edits.end());
 	edits.push_back(undoableEdit);
 	indexOfNextAdd++;
@@ -65,7 +65,7 @@ inline void UndoManager::redo(){
 }
 inline void UndoManager::undoTo(UndoableEdit* edit)
 {
-	if (indexOfNextAdd <1)return;
+//	if (indexOfNextAdd <1)return;
 //	cout << indexOfNextAdd << endl;
 	vector<UndoableEdit*>::iterator ite = edits.begin() + indexOfNextAdd - 1;
 	

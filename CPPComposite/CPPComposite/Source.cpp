@@ -25,6 +25,10 @@ public:
 	virtual void printList(){
 		cout << "" << endl;
 	}
+	virtual void delete_Entry(){}
+	void printSize(){
+		cout << "The size of " << this->getName() << " is " << this->getSize() << endl;
+	}
 	string s_name;
 	
 };
@@ -37,14 +41,15 @@ public:
 	File(string name, int size) :name(name), size(size){
 		s_name = this->name;
 	}
-	~File(){}
-	
+	~File(){
+	}
 	int getSize(){
 		return this->size;
 	}
 	void printList(){
 		cout << this->getName() << endl;
 	}
+	
 };
 class Directory :public Entry{
 private:
@@ -58,6 +63,7 @@ public:
 	
 	 void add(Entry* entry){
 		vec_entry.push_back(entry);
+		cout << entry->getName() << " has been added into " << this->getName() << endl;
 		
 	}
 	 Entry* get_Child_At(int index){
@@ -72,10 +78,14 @@ public:
 		 for (ite = vec_entry.begin(); ite != vec_entry.end();ite++)
 		 {
 			 if ((*ite) == entry){
-				 ite = vec_entry.erase(ite);
-				 ite--;
-				 delete(entry);
-				 break;
+				// cout << entry->getName() << " has been removed from " << this->getName() << endl;
+				 string name = (*ite)->getName();
+			//	 ite = vec_entry.erase(ite);
+				 vec_entry.erase(ite, ite + 1);
+				 cout << name << " has been removed from " << this->getName() << endl;
+				// (*ite)->delete_Entry();
+				// delete(entry);
+				 return;
 			 }
 		 }
 	 }
@@ -103,17 +113,18 @@ public:
 		   	ite++;
 		}
 	}
+
 };
 
 int main()
 {
-	Directory* root = new Directory("root");
-	Directory* sub0 = new Directory("sub0");
-	Directory* sub1 = new Directory("sub1");
-	Directory* sub2 = new Directory("sub2");
-	File* file0 = new File("file0", 10);
-	File* file1 = new File("file1", 12);
-	File* file2 = new File("file2", 12);
+	Directory* root = new Directory("ROOT");
+	Directory* sub0 = new Directory("SUB0");
+	Directory* sub1 = new Directory("SUB1");
+	Directory* sub2 = new Directory("SUB2");
+	File* file0 = new File("FILE0", 10);
+	File* file1 = new File("FILE1", 12);
+	File* file2 = new File("FILE2", 12);
 	
 	sub0->add(file0);
 	sub0->add(file2);
@@ -127,10 +138,15 @@ int main()
 	root->add(sub0);
 	root->add(sub1);
 	root->add(sub2);
-	//root->remove_child(sub2);
-	//cout << root->getName() << endl;
-	cout << root->getSize() << endl;
-	root->printList();
+//	sub0->remove_child(file1);
+//	cout << root->getSize() << endl;
+//	cout << sub0->getSize() << endl;
+	root->printSize();
+	sub0->printSize();
+	root->remove_child(sub0);
+	root->printSize();
+//	cout << root->getSize() << endl;
+//	root->printList();
 	cout << endl;
 	cout << endl;
 	cout << endl;

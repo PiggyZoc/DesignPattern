@@ -23,6 +23,9 @@ public:
 /*	vector<MySquare*> getSquares(){
 		return this->squares;
 	*/
+	int getSize(){
+		return this->graphics.size();
+	}
 	vector<MyGraphic*> getGraphics(){
 		return this->graphics;
 	}
@@ -70,6 +73,9 @@ public:
 	/*	vector<MySquare*> getSquares(){
 	return this->squares;
 	*/
+	int getSize(){
+		return this->graphics.size();
+	}
 	vector<MyGraphic*> getGraphics(){
 		return this->graphics;
 	}

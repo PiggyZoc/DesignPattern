@@ -219,7 +219,10 @@ namespace Project {
 			g->DrawRectangle(pen, e->Location.X, e->Location.Y, 50, 50);
 			MySquare* sqr = new MySquare(*currentPoint, 50);
 			graphics->push_back(sqr);
+	//		cout << graphics->size() << endl;
 			editSupport->postEdit(new DrawingSquareEdit(*graphics, sqr));
+	//		DrawingSquareEdit* edit = (DrawingSquareEdit*)manager->getEdit();
+	//		cout << edit->getSize() << endl;
 			checkBox1->Checked = false;
 		}
 		else if (DrawATriangle)
@@ -277,13 +280,14 @@ namespace Project {
 		drawMap->Image = bitmap;
 
 		g = Graphics::FromImage(bitmap);
-		DrawingSquareEdit* edit = (DrawingSquareEdit*)manager->getEdit();
-		if (edit==NULL)
+		
+		if (manager->getEdit() == NULL)
 		{
 			g->Clear(drawMap->BackColor);
 			return;
 		}
 	//	*squares = edit->getSquares();
+		AbstractUndoableEdit* edit = (AbstractUndoableEdit*)manager->getEdit();
 		*graphics = edit->getGraphics();
 		
 		vector<MyGraphic*>::iterator ite = graphics->begin();
@@ -331,15 +335,22 @@ namespace Project {
 	private: System::Void button1_Click(System::Object^  sender, System::EventArgs^  e) {
 		manager->undo();
 //		cout << manager->getEdit()->getPresentationName() << endl;
+//		editSupport->postEdit(new DrawingSquareEdit(*graphics, sqr));
+//		DrawingSquareEdit* edit = (DrawingSquareEdit*)manager->getEdit();
+//		cout << edit->getSize() << endl;
 		ClearDrawingMap();
 		repaint();
+		cout << "##########" << graphics->size() << endl;
 		setCanUndo();
 		setCanRedo();
 	}
 private: System::Void button4_Click(System::Object^  sender, System::EventArgs^  e) {
 	manager->redo();
+//	DrawingSquareEdit* edit = (DrawingSquareEdit*)manager->getEdit();
+//	cout << edit->getSize() << endl;
 	ClearDrawingMap();
 	repaint();
+	cout << "#########" << graphics->size() << endl;
 	setCanUndo();
 	setCanRedo();
 }

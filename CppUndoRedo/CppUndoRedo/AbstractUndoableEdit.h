@@ -1,5 +1,6 @@
 #pragma once
 #include "UndoableEdit.h"
+#include "MyPoint.h"
  class AbstractUndoableEdit:public UndoableEdit
 {
 public:
@@ -14,7 +15,10 @@ public:
 	string getPresentationName();
 	string getUndoPresentationName();
 	string getRedoPresentationName();
-	
+	virtual vector<MyGraphic*> getGraphics(){
+		vector<MyGraphic*> v;
+		return v;
+	};
 private:
 	bool hasBeenDone = true;
 	bool alive = true;
